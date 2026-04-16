@@ -2,6 +2,7 @@
 #include "XFoil_Interface.h"
 #include <fstream>
 #include <cstdlib>
+#include "DigestPolar.h"
 
 // === Constructor ===
 // Construct default arguments to build file:
@@ -32,24 +33,33 @@ void XFoil_Interface::setAlpha(double start, double end, double step) {
 
 }
 
-// Set output file name:
-void XFoil_Interface::setOutputFile(std::string name) {
-
-    // Set file name:
-    outputFile = name;
-
-}
-
-// Set desired airfoil:
-void XFoil_Interface::setAirfoil(std::string myAirfoil) {
-
-    // Set airfoil:
-    airfoil = myAirfoil;
-
-}
-
 // === Getters ===
+vector<DigestPolar> XFoil_Interface::getPolar() {
 
+    // Build DigestPolar object:
+    DigestPolar PolarFile(outputFile);
+
+    // Unpack and return polar:
+    return PolarFile.Unpack();
+
+}
+
+// Fetch aerodynamic data:
+vector<double> XFoil_Interface::getAlpha(const std::vector<DigestPolar>& polar) {
+    std::vector<double> out;
+    for (auto& p : polar) out.push_back(p.getAlphaVal());
+    return out;
+}
+vector<double> XFoil_Interface::getCL(const std::vector<DigestPolar>& polar) {
+    std::vector<double> out;
+    for (auto& p : polar) out.push_back(p.getCLVal());
+    return out;
+}
+vector<double> XFoil_Interface::getCD(const std::vector<DigestPolar>& polar) {
+    std::vector<double> out;
+    for (auto& p : polar) out.push_back(p.getCDVal());
+    return out;
+}
 
 // === Member Functions ===
 // Write input file:
@@ -61,7 +71,8 @@ void XFoil_Interface::writeInput() {
     file << "OPER\n";
     file << "PACC\n";
     file << outputFile << "\n\n";
-    file << "ALFA " << alphaStart << " " << alphaEnd << " " << alphaStep << "\n";
+    file << "ASEQ " << alphaStart << " " << alphaEnd << " " << alphaStep << "\n";
+    file << "\n";
     file << "QUIT\n";
     file.close();
 }
@@ -70,6 +81,9 @@ void XFoil_Interface::writeInput() {
 // Run XFOIL with input file:
 void XFoil_Interface::runXFOIL() {
 
+    // Clear previous output file:
+    remove(outputFile.c_str());
+
     // Run file:
     system("..\\XForge\\XFOIL\\xfoil.exe < input.in");
 
@@ -77,50 +91,3 @@ void XFoil_Interface::runXFOIL() {
 
 // === Destructor ===
 XFoil_Interface::~XFoil_Interface() {}
-
-
-
-
-
-
-
-// XfoilRunner.cpp
-#include <fstream>
-#include <sstream>
-
-void XfoilRunner::parsePolar() {
-    polar.clear();
-    std::ifstream file(outputFile);
-    std::string line;
-
-    // skip header lines
-    while (std::getline(file, line))
-        if (line.find("alpha") != std::string::npos) break;
-    std::getline(file, line); // skip dashes line
-
-    while (std::getline(file, line)) {
-        if (line.empty()) continue;
-        std::istringstream ss(line);
-        PolarPoint p;
-        ss >> p.alpha >> p.CL >> p.CD >> p.CDp >> p.CM >> p.topXtr >> p.botXtr;
-        polar.push_back(p);
-    }
-}
-
-double XfoilRunner::getCLmax() {
-    double max = -1e9;
-    for (auto& p : polar) max = std::max(max, p.CL);
-    return max;
-}
-
-double XfoilRunner::getLDmax() {
-    double max = -1e9;
-    for (auto& p : polar) max = std::max(max, p.CL / p.CD);
-    return max;
-}
-
-std::vector<double> XfoilRunner::getCol(double PolarPoint::* member) {
-    std::vector<double> out;
-    for (auto& p : polar) out.push_back(p.*member);
-    return out;
-}

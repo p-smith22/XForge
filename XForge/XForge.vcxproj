@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DigestPolar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="XFoil_Interface.cpp" />
     <ClCompile Include="XFoil_Interface.h" />

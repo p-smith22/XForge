@@ -22,7 +22,10 @@ public:
     void setAlpha(double, double, double);
 
     // Getters to get data from polar:
-
+    vector<DigestPolar> getPolar();
+    vector<double> getAlpha(const vector<DigestPolar>&);
+    vector<double> getCL(const vector<DigestPolar>&);
+    vector<double> getCD(const vector<DigestPolar>&);
     
     // Member functions to run XFOIL:
     void runXFOIL();
@@ -38,32 +41,4 @@ private:
     double alphaStart, alphaEnd, alphaStep;
     string outputFile;
 
-    // Create pointer data member:
-    vector<DigestPolar> polar;
-
-
-};
-
-
-class XfoilRunner {
-public:
-    // ... existing members ...
-
-    void parsePolar();
-
-    std::vector<PolarPoint> getPolar() { return polar; }
-    std::vector<double> getAlpha() { return getCol(&PolarPoint::alpha); }
-    std::vector<double> getCL() { return getCol(&PolarPoint::CL); }
-    std::vector<double> getCD() { return getCol(&PolarPoint::CD); }
-    std::vector<double> getCM() { return getCol(&PolarPoint::CM); }
-    double getCLmax();
-    double getLDmax();  // max CL/CD
-
-private:
-    std::vector<PolarPoint> polar;
-    std::vector<double> getCol(double PolarPoint::* member);
-};
-
-struct PolarPoint {
-    double alpha, CL, CD, CDp, CM, topXtr, botXtr;
 };

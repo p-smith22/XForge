@@ -1,0 +1,5 @@
+﻿  XFoil_Interface.cpp
+  XFoil_Interface.h
+  Generating Code...
+x64\Debug\XFoil_Interface.obj : warning LNK4042: object specified more than once; extras ignored
+  XForge.vcxproj -> C:\Users\pjs6193\source\repos\XForge\x64\Debug\XForge.exe
