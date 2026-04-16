@@ -53,7 +53,17 @@ vector<DigestPolar> DigestPolar::Unpack() {
         DigestPolar p;
 
         // Delimit into the respective variables:
-        ss >> p.alpha >> p.CL >> p.CD >> p.CDp >> p.CM >> p.topXtr >> p.botXtr;
+        double alpha_temp, cl_temp, cd_temp, cdp_temp, cm_temp, top_temp, bot_temp;
+        ss >> alpha_temp >> cl_temp >> cd_temp >> cdp_temp >> cm_temp >> top_temp >> bot_temp;
+
+        // Assign variables:
+        p.setAlpha(alpha_temp);
+        p.setCL(cl_temp);
+        p.setCD(cd_temp);
+        p.setCDp(cdp_temp);
+        p.setCM(cm_temp);
+        p.setTop(top_temp);
+        p.setBot(bot_temp);
 
         // Add to vector:
         polar.push_back(p);

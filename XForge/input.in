@@ -1,7 +1,11 @@
+PLOP
+G
+
 NACA 0012
 OPER
 PACC
 polar.dat
 
-ALFA 0 10 1
+ASEQ -8 12 0.5
+
 QUIT

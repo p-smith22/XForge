@@ -33,8 +33,8 @@ int main() {
 
     // Print CL data to test:
     cout << "\n\n\n" << "Printing Results:" << endl;
-    for (int i = 0; i < CL_data.size(); i++) {
-        cout << CL_data[i] << " ";
+    for (auto i : CL_data) {
+        cout << i << "  ";
     }
 
     // End main:

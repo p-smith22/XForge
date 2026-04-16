@@ -67,6 +67,9 @@ void XFoil_Interface::writeInput() {
 
     // Build file with desired parameters:
     std::ofstream file("input.in");
+    file << "PLOP" << "\n";
+    file << "G" << "\n";
+    file << "\n";
     file << airfoil << "\n";
     file << "OPER\n";
     file << "PACC\n";
