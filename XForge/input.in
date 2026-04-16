@@ -1,0 +1,7 @@
+NACA 2412
+OPER
+PACC
+polar.dat
+
+ALFA 0 10 1
+QUIT
