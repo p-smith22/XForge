@@ -9,13 +9,21 @@ using namespace std;
 
 // === Constructor ===
 // Default constructor for each iteration:
-DigestPolar::DigestPolar() {}
+DigestPolar::DigestPolar() {
+
+    // Initialize dummy values (it doesn't really matter for this one, they will get filled):
+    alpha = CL = CD = CDp = CM = topXtr = botXtr = 0;
+
+}
 
 // Main constructor for main run:
 DigestPolar::DigestPolar(string name) {
 
 	// Assign output file on creation:
 	outputFile = name;
+
+    // Initialize dummy values (it doesn't really matter for this one, they will get filled):
+    alpha = CL = CD = CDp = CM = topXtr = botXtr = 0;
 
 }
 

@@ -14,7 +14,7 @@ int main() {
 
     // Import desired settings:
     myXFOIL.setAirfoil("NACA 0012");
-    myXFOIL.setAlpha(0, 10, 1);
+    myXFOIL.setAlpha(-8, 12, 0.5);
     myXFOIL.setOutputFile("polar.dat");
 
     // Build input file:
@@ -23,7 +23,7 @@ int main() {
     // Run XFOIL:
     myXFOIL.runXFOIL();
 
-    // Digest resutls:
+    // Digest results and get polar file (in vector form):
     vector<DigestPolar> polar = myXFOIL.getPolar();
 
     // Fetch aerodynamic data:
@@ -39,4 +39,5 @@ int main() {
 
     // End main:
     return 0;
+
 }
