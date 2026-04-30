@@ -31,6 +31,7 @@ public:
     double getAlphaVal() const { return alpha; }
     double getCLVal() const { return CL; }
     double getCDVal() const { return CD; }
+    double getCMVal() const { return CM; }
 
     // Destructor:
     ~DigestPolar();

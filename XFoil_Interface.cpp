@@ -34,6 +34,7 @@ void XFoil_Interface::setAlpha(double start, double end, double step) {
     alphaStep  = step;
 }
 
+// === GETTERS ===
 // Get aerodynamic data:
 vector<double> XFoil_Interface::getAlpha() {
     vector<double> out;
@@ -50,6 +51,11 @@ vector<double> XFoil_Interface::getCD() {
     for (auto& p : polar) out.push_back(p.getCDVal());
     return out;
 }
+vector<double> XFoil_Interface::getCM() {
+    vector<double> out;
+    for (auto& p : polar) out.push_back(p.getCMVal());
+    return out;
+}
 
 // Digest the polar file produced from XFOIL:
 vector<DigestPolar> XFoil_Interface::getPolar() {
@@ -63,27 +69,26 @@ vector<DigestPolar> XFoil_Interface::getPolar() {
 
 // Write input file:
 void XFoil_Interface::writeInput() {
+
+    // Open file:
     std::ofstream file("input.in");
 
-    // Suppress graphics
+    // Turn off plotting:
     file << "PLOP\n";
     file << "G\n";
     file << "\n";
 
-    // Load airfoil
+    // Load airfoil and begin operations:
     file << airfoil << "\n";
-
-    // Enter OPER menu:
     file << "OPER\n";
 
-    // Set Mach:
+    // Set Mach if desired:
     if (mach > 0.0)
         file << "MACH " << mach << "\n";
 
-    // Viscous mode:
+    // Set viscous if desired (with Reynold's Number):
     if (viscous) {
         file << "VISC " << static_cast<long long>(reynolds) << "\n";
-        // Set Ncrit / Xtr via VPAR submenu
         file << "VPAR\n";
         file << "N " << ncrit << "\n";
         file << "XTR " << xtrTop << " " << xtrBot << "\n";
@@ -96,6 +101,8 @@ void XFoil_Interface::writeInput() {
 
     // Alpha sweep:
     file << "ASEQ " << alphaStart << " " << alphaEnd << " " << alphaStep << "\n";
+
+    // Quit XFOIL and close file:
     file << "\n";
     file << "QUIT\n";
     file.close();

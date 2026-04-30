@@ -182,8 +182,8 @@ QWidget* MainWindow::buildInputPanel() {
     QFormLayout* alphaLayout = new QFormLayout(alphaBox);
     alphaLayout->setSpacing(8);
 
-    m_alphaStart = new QDoubleSpinBox; m_alphaStart->setRange(-30, 0);  m_alphaStart->setValue(-20);  m_alphaStart->setSuffix(" °"); m_alphaStart->setSingleStep(0.5);
-    m_alphaEnd   = new QDoubleSpinBox; m_alphaEnd->setRange(0, 30);     m_alphaEnd->setValue(20);    m_alphaEnd->setSuffix(" °");   m_alphaEnd->setSingleStep(0.5);
+    m_alphaStart = new QDoubleSpinBox; m_alphaStart->setRange(-30, 0);  m_alphaStart->setValue(-8);  m_alphaStart->setSuffix(" °"); m_alphaStart->setSingleStep(0.5);
+    m_alphaEnd   = new QDoubleSpinBox; m_alphaEnd->setRange(0, 30);     m_alphaEnd->setValue(12);    m_alphaEnd->setSuffix(" °");   m_alphaEnd->setSingleStep(0.5);
     m_alphaStep  = new QDoubleSpinBox; m_alphaStep->setRange(0.05, 5);  m_alphaStep->setValue(1.0);  m_alphaStep->setSuffix(" °");  m_alphaStep->setSingleStep(0.05);
 
     alphaLayout->addRow("Start:", m_alphaStart);
@@ -284,11 +284,13 @@ QWidget* MainWindow::buildOutputPanel() {
 
     m_clAlphaView = makeChartView();
     m_cdAlphaView = makeChartView();
+    m_cmAlphaView = makeChartView();
     m_polarView   = makeChartView();
     m_ldView      = makeChartView();
 
     m_chartTabs->addTab(m_clAlphaView, "CL vs α");
     m_chartTabs->addTab(m_cdAlphaView, "CD vs α");
+    m_chartTabs->addTab(m_cmAlphaView, "CM vs α");
     m_chartTabs->addTab(m_polarView,   "Drag Polar");
     m_chartTabs->addTab(m_ldView,      "L/D vs α");
 
@@ -343,6 +345,7 @@ void MainWindow::buildCharts() {
 
     configChart(m_clAlphaView, "Lift Coefficient",       "α (deg)",  "CL",         m_clSeries,    QColor("#4fc3f7"));
     configChart(m_cdAlphaView, "Drag Coefficient",       "α (deg)",  "CD",         m_cdSeries,    QColor("#ef5350"));
+    configChart(m_cmAlphaView, "Moment Coefficient",     "α (deg)",  "CM",         m_cmSeries,    QColor("#ce93d8"));
     configChart(m_polarView,   "Drag Polar",             "CD",       "CL",         m_polarSeries, QColor("#66bb6a"));
     configChart(m_ldView,      "Lift-to-Drag Ratio",     "α (deg)",  "L/D",        m_ldSeries,    QColor("#ffa726"));
 }
@@ -416,9 +419,10 @@ void MainWindow::onSimulationFinished() {
     auto alpha = m_xfoil.getAlpha();
     auto CL    = m_xfoil.getCL();
     auto CD    = m_xfoil.getCD();
+    auto CM    = m_xfoil.getCM();
 
     if (alpha.empty()) {
-        m_logOutput->append("  [ERROR]  No data returned — check XFOIL path and input.");
+        m_logOutput->append("  [ERROR]  Check inputs.");
         setSimulating(false);
         statusBar()->showMessage("Simulation failed — no data returned");
         return;
@@ -426,6 +430,7 @@ void MainWindow::onSimulationFinished() {
 
     updateCLvsAlpha(alpha, CL);
     updateCDvsAlpha(alpha, CD);
+    updateCMvsAlpha(alpha, CM);
     updateCLvsCDPolar(CL, CD);
     updateLDvsAlpha(alpha, CL, CD);
 
@@ -471,6 +476,18 @@ void MainWindow::updateCDvsAlpha(const std::vector<double>& alpha,
     double cdMax = *std::max_element(CD.begin(), CD.end());
     double pad = (cdMax - cdMin) * 0.1;
     m_cdAlphaView->chart()->axes(Qt::Vertical).first()->setRange(cdMin - pad, cdMax + pad);
+}
+
+void MainWindow::updateCMvsAlpha(const std::vector<double>& alpha,
+                                 const std::vector<double>& CM) {
+    m_cmSeries->clear();
+    for (size_t i = 0; i < alpha.size(); i++)
+        m_cmSeries->append(alpha[i], CM[i]);
+    m_cmAlphaView->chart()->axes(Qt::Horizontal).first()->setRange(alpha.front(), alpha.back());
+    double cmMin = *std::min_element(CM.begin(), CM.end());
+    double cmMax = *std::max_element(CM.begin(), CM.end());
+    double pad = (cmMax - cmMin) * 0.1;
+    m_cmAlphaView->chart()->axes(Qt::Vertical).first()->setRange(cmMin - pad, cmMax + pad);
 }
 
 void MainWindow::updateCLvsCDPolar(const std::vector<double>& CL,

@@ -19,7 +19,7 @@
 #include "XFoil_Interface.h"
 
 
-    // Worker thread so GUI doesn't freeze during XFOIL run
+// Worker thread so GUI doesn't freeze during XFOIL run
 class XFoilWorker : public QObject {
     Q_OBJECT
 public:
@@ -64,6 +64,8 @@ private:
                          const std::vector<double>& CL);
     void updateCDvsAlpha(const std::vector<double>& alpha,
                          const std::vector<double>& CD);
+    void updateCMvsAlpha(const std::vector<double>& alpha,
+                         const std::vector<double>& CM);
     void updateCLvsCDPolar(const std::vector<double>& CL,
                            const std::vector<double>& CD);
     void updateLDvsAlpha(const std::vector<double>& alpha,
@@ -76,8 +78,8 @@ private:
     XFoil_Interface m_xfoil;
 
     // ---- Input widgets ----
-    QComboBox*      m_airfoilType;      // NACA 4, NACA 5, DAT file
-    QLineEdit*      m_nacaCode;         // e.g. "0012"
+    QComboBox* m_airfoilType;
+    QLineEdit* m_nacaCode;
     QDoubleSpinBox* m_alphaStart;
     QDoubleSpinBox* m_alphaEnd;
     QDoubleSpinBox* m_alphaStep;
@@ -95,6 +97,7 @@ private:
     QTabWidget*     m_chartTabs;
     QChartView*     m_clAlphaView;
     QChartView*     m_cdAlphaView;
+    QChartView*     m_cmAlphaView;
     QChartView*     m_polarView;
     QChartView*     m_ldView;
     QTextEdit*      m_logOutput;
@@ -102,6 +105,7 @@ private:
     // ---- Chart series ----
     QLineSeries*    m_clSeries;
     QLineSeries*    m_cdSeries;
+    QLineSeries*    m_cmSeries;
     QLineSeries*    m_polarSeries;
     QLineSeries*    m_ldSeries;
 

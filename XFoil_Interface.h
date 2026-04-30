@@ -17,19 +17,20 @@ public:
     XFoil_Interface();
 
     // Setters:
-    void setAirfoil(string desAirfoil)  { airfoil = desAirfoil; }
-    void setOutputFile(string desName)  { outputFile = desName; }
-    void setAlpha(double, double, double);
-    void setViscous(bool v)             { viscous = v; }
-    void setReynolds(double re)         { reynolds = re; }
-    void setMach(double m)              { mach = m; }
-    void setNcrit(int nc)               { ncrit = nc; }
+    void setAirfoil(string desAirfoil) { airfoil = desAirfoil; }
+    void setOutputFile(string desName) { outputFile = desName; }
+    void setViscous(bool v) { viscous = v; }
+    void setReynolds(double re) { reynolds = re; }
+    void setMach(double m) { mach = m; }
+    void setNcrit(int nc) { ncrit = nc; }
     void setXtr(double top, double bot) { xtrTop = top; xtrBot = bot; }
+    void setAlpha(double, double, double);
 
     // Getters:
     vector<double> getAlpha();
     vector<double> getCL();
     vector<double> getCD();
+    vector<double> getCM();
 
     // Member functions:
     vector<DigestPolar> getPolar();
