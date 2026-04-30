@@ -182,9 +182,9 @@ QWidget* MainWindow::buildInputPanel() {
     QFormLayout* alphaLayout = new QFormLayout(alphaBox);
     alphaLayout->setSpacing(8);
 
-    m_alphaStart = new QDoubleSpinBox; m_alphaStart->setRange(-30, 0);  m_alphaStart->setValue(-8);  m_alphaStart->setSuffix(" °"); m_alphaStart->setSingleStep(0.5);
-    m_alphaEnd   = new QDoubleSpinBox; m_alphaEnd->setRange(0, 30);     m_alphaEnd->setValue(12);    m_alphaEnd->setSuffix(" °");   m_alphaEnd->setSingleStep(0.5);
-    m_alphaStep  = new QDoubleSpinBox; m_alphaStep->setRange(0.05, 5);  m_alphaStep->setValue(0.5);  m_alphaStep->setSuffix(" °");  m_alphaStep->setSingleStep(0.05);
+    m_alphaStart = new QDoubleSpinBox; m_alphaStart->setRange(-30, 0);  m_alphaStart->setValue(-20);  m_alphaStart->setSuffix(" °"); m_alphaStart->setSingleStep(0.5);
+    m_alphaEnd   = new QDoubleSpinBox; m_alphaEnd->setRange(0, 30);     m_alphaEnd->setValue(20);    m_alphaEnd->setSuffix(" °");   m_alphaEnd->setSingleStep(0.5);
+    m_alphaStep  = new QDoubleSpinBox; m_alphaStep->setRange(0.05, 5);  m_alphaStep->setValue(1.0);  m_alphaStep->setSuffix(" °");  m_alphaStep->setSingleStep(0.05);
 
     alphaLayout->addRow("Start:", m_alphaStart);
     alphaLayout->addRow("End:",   m_alphaEnd);
