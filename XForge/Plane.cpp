@@ -3,7 +3,6 @@
 #include <vector>
 #include <cmath>
 #include <numeric>
-#include <stdexcept>
 #include <Eigen/Dense>
 using namespace std;
 using namespace Eigen;
