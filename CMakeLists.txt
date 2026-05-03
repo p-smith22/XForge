@@ -16,23 +16,39 @@ else()
     set(QT_VERSION_MAJOR 6)
 endif()
 
+# Eigen3 — required by Plane::liftingLineTheory()
+# On Ubuntu/Debian: sudo apt install libeigen3-dev
+# On macOS (Homebrew):  brew install eigen
+# On Windows (vcpkg):   vcpkg install eigen3
+# Note: no version pin — vcpkg now ships Eigen 5.x and the version-matching
+# rejects 3.3 requests against a 5.x install. We only use stable Dense API.
+find_package(Eigen3 REQUIRED NO_MODULE)
+
 set(SOURCES
     main.cpp
     MainWindow.cpp
     XFoil_Interface.cpp
     DigestPolar.cpp
+    Plane.cpp
 )
 
 set(HEADERS
     MainWindow.h
     XFoil_Interface.h
     DigestPolar.h
+    Plane.h
 )
 
 add_executable(XForge WIN32 ${SOURCES} ${HEADERS})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    target_link_libraries(XForge PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Charts)
+    target_link_libraries(XForge PRIVATE
+        Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Charts
+        Eigen3::Eigen
+    )
 else()
-    target_link_libraries(XForge PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Charts)
+    target_link_libraries(XForge PRIVATE
+        Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Charts
+        Eigen3::Eigen
+    )
 endif()
