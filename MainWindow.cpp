@@ -129,9 +129,9 @@ void MainWindow::setupUI() {
     // Angle of attack section
     QGroupBox* gAlpha = new QGroupBox("ANGLE OF ATTACK SWEEP");
     QFormLayout* fAlpha = new QFormLayout(gAlpha);
-    m_aStart = new QDoubleSpinBox; m_aStart->setRange(-30, 30); m_aStart->setValue(-5); m_aStart->setSuffix(" °");
-    m_aEnd   = new QDoubleSpinBox; m_aEnd  ->setRange(-30, 30); m_aEnd  ->setValue(15); m_aEnd  ->setSuffix(" °");
-    m_aStep  = new QDoubleSpinBox; m_aStep ->setRange(0.05, 5); m_aStep ->setValue(0.5); m_aStep ->setSuffix(" °");
+    m_aStart = new QDoubleSpinBox; m_aStart->setRange(-30, 30); m_aStart->setValue(-5); m_aStart->setSuffix("\u00B0");
+    m_aEnd   = new QDoubleSpinBox; m_aEnd  ->setRange(-30, 30); m_aEnd  ->setValue(15); m_aEnd  ->setSuffix("\u00B0");
+    m_aStep  = new QDoubleSpinBox; m_aStep ->setRange(0.05, 5); m_aStep ->setValue(0.5); m_aStep ->setSuffix("\u00B0");
     m_aStep->setSingleStep(0.1);
     fAlpha->addRow("alpha start:", m_aStart);
     fAlpha->addRow("alpha end:",   m_aEnd);
@@ -157,13 +157,13 @@ void MainWindow::setupUI() {
     m_chord   = new QDoubleSpinBox; m_chord  ->setRange(0.01, 20);  m_chord  ->setValue(0.20); m_chord  ->setDecimals(3); m_chord  ->setSuffix(" m");
     m_span    = new QDoubleSpinBox; m_span   ->setRange(0.05, 200); m_span   ->setValue(2.0);  m_span   ->setDecimals(3); m_span   ->setSuffix(" m");
     m_eOswald = new QDoubleSpinBox; m_eOswald->setRange(0.5, 1.0);  m_eOswald->setValue(0.85); m_eOswald->setDecimals(2); m_eOswald->setSingleStep(0.01);
-    m_rho     = new QDoubleSpinBox; m_rho    ->setRange(0.001, 10); m_rho    ->setValue(1.225);m_rho    ->setDecimals(3); m_rho    ->setSuffix(" kg/m³");
+    m_rho     = new QDoubleSpinBox; m_rho    ->setRange(0.001, 10); m_rho    ->setValue(1.225);m_rho    ->setDecimals(3); m_rho    ->setSuffix(" kg/m\u00B3");
     m_vinf    = new QDoubleSpinBox; m_vinf   ->setRange(0.1, 500);  m_vinf   ->setValue(30);   m_vinf   ->setDecimals(2); m_vinf   ->setSuffix(" m/s");
     fWing->addRow("Chord c:",    m_chord);
     fWing->addRow("Wingspan b:", m_span);
     fWing->addRow("Oswald e:",   m_eOswald);
     fWing->addRow("Density ρ:",  m_rho);
-    fWing->addRow("V∞:",         m_vinf);
+    fWing->addRow("Vinf:",         m_vinf);
     inLay->addWidget(gWing);
 
     // Run button
@@ -261,7 +261,7 @@ void MainWindow::setupUI() {
     // Log
     m_log = new QTextEdit;
     m_log->setReadOnly(true);
-    m_log->setPlaceholderText("// Simulation log...");
+    m_log->setPlaceholderText("Simulation log...");
 
     // Format charts, anaylsis, tabs, and input areas
     QSplitter* bottomSplit = new QSplitter(Qt::Horizontal);
@@ -403,7 +403,7 @@ void MainWindow::onSimulationFinished() {
     m_lblLd3  ->setText(QString::number(ld3Best,  'f', 1));
     m_lblLdOpt->setText(QString::number(aLDopt,   'f', 2) + " °");
 
-    m_log->append(QString("  %1 points  |  done").arg(alpha.size()));
+    m_log->append(QString("%1 points  |  done").arg(alpha.size()));
 }
 
 

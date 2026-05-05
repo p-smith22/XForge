@@ -77,7 +77,7 @@ public:
     // Log
     QTextEdit       *m_log;
 
-    // Threading
+    // Threads
     QThread         *m_thread;
     XFoilWorker     *m_worker;
 };

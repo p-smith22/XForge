@@ -116,7 +116,7 @@ void XFoil_Interface::runXFOIL() {
     writeInput();
 
     // Run XFOIL:
-    system("xfoil.exe < input.in");
+    system("..\\..\\..\\xfoil.exe < input.in");
 
     // Unpack polar:
     polar = this->getPolar();

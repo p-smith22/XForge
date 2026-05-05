@@ -7,7 +7,10 @@ CONFIG += c++17
 TARGET   = XForge
 TEMPLATE = app
 
+INCLUDEPATH += $$PWD/eigen
+
 SOURCES += \
+    Plane.cpp \
     main.cpp \
     MainWindow.cpp \
     XFoil_Interface.cpp \
@@ -15,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     MainWindow.h \
+    Plane.h \
     XFoil_Interface.h \
     DigestPolar.h
 
@@ -25,5 +29,4 @@ DEFINES += QT_DEPRECATED_WARNINGS
 win32: CONFIG += windows
 
 DISTFILES += \
-    CMakeLists.txt \
     xfoil.exe
